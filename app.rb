@@ -1,6 +1,6 @@
 require 'bundler/setup'
 Bundler.require(:default)
-require File.expand_path('../lib/user_worker', __FILE__)
+require File.expand_path('../lib/user_counter_increaser', __FILE__)
 require 'sinatra/redis'
 
 configure do
@@ -16,6 +16,7 @@ get "/" do
   #@s3_originals = redis.get s3_originals_key
   #@s3_watermarked = redis.get s3_watermarked_key
   #@watermarked_urls = redis.lrange(watermarked_url_list, 0, 4)
+  @users = User.all
   @working = Resque.working
   erb :index
 end
