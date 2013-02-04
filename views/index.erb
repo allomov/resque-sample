@@ -2,7 +2,7 @@
 <html lang="en-US">
 <head>
   <meta charset="UTF-8">
-  <title></title>
+  <title>Redis with Sinatra Sample</title>
 </head>
 <body>
 
@@ -12,7 +12,7 @@
 
   user list
 
-
+  <%= partial(:user_list, locals: @users) %>
 
 </body>
 </html>

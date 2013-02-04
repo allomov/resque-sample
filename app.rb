@@ -1,6 +1,10 @@
 require 'bundler/setup'
 Bundler.require(:default)
-require File.expand_path('../lib/user_counter_increaser', __FILE__)
+require File.expand_path(File.join('..', 'lib', 'database'), __FILE__)
+%w(premium_user_worker standard_user_worker basic_user_worker).each do |w|
+  require File.expand_path(File.join('..', 'lib', 'workers', w), __FILE__)
+end
+
 require 'sinatra/redis'
 
 configure do
@@ -11,20 +15,17 @@ configure do
 end
 
 get "/" do
-
-  #@local_uploads = redis.get local_uploads_key
-  #@s3_originals = redis.get s3_originals_key
-  #@s3_watermarked = redis.get s3_watermarked_key
-  #@watermarked_urls = redis.lrange(watermarked_url_list, 0, 4)
   @users = User.all
   @working = Resque.working
   erb :index
 end
 
 post '/users(.:format)' do
-  unless params['user'].nil?
-    user_hash = params['user']
-    Resque.enqueue(UserWorker, user_hash)
+  unless params[:user].nil?
+    user = User.new(params[:user])
+    if user.save
+      Resque.enqueue(params[:user][:type].constantize, user.id)
+    end
   end
 end
 
