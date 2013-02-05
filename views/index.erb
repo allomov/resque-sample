@@ -1,18 +1,37 @@
 <!DOCTYPE HTML>
-<html lang="en-US">
+<html lang="en-US" xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="UTF-8">
   <title>Redis with Sinatra Sample</title>
+
+  <style type="text/css">
+    .container {
+        width: 800px;
+        margin: 0 auto;
+    }
+    form[action=users] input, form[action=users] select {
+        display: block;
+        width: 300px;
+        margin-bottom: 20px;
+    }
+    .error { border: red solid 1px }
+  </style>
 </head>
 <body>
 
-  create user form
+<section class="container">
+  <h1>Create User</h1>
+  <% unless @user.errors.full_messages.empty? %>
+      <div class="error">
+        <%= @user.errors.full_messages[0] %>
+      </div>
+  <% end %>
+  <%= partial(:form, locals: { user: @user }) %>
+  <br><br><br>
+  <h1>User List</h1>
+  <%= partial(:users_list, locals: { users: @users }) %>
 
-  id, instagram user_name, password, and actions/hour
-
-  user list
-
-  <%= partial(:user_list, locals: @users) %>
+</section>
 
 </body>
 </html>

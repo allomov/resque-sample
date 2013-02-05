@@ -1,0 +1,11 @@
+<form action="users" method="post">
+  <input name="user[user_id]"             type="number" value="<%= @user.user_id %>" />
+  <input name="user[instagram_user_name]" type="text" placeholder="Instagram User Name" value="<%= @user.instagram_user_name %>"/>
+  <input name="user[password]"            type="text" placeholder="Password" value="<%= @user.password %>"/>
+  <select name="user[priority]">
+    <option value="high">High</option>
+    <option value="normal">Normal</option>
+    <option value="low">Low</option>
+  </select>
+  <input type="submit" value="Create User">
+</form>

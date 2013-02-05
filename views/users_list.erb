@@ -1,0 +1,19 @@
+<% if @users.nil? || @users.empty? %>
+    There is no users yet
+<% else %>
+    <table>
+      <%#= partial(:user, collection: users) %>
+      <% @users.each do |user| %>
+          <tr>
+            <td><%= user.user_id %></td>
+            <td><%= user.instagram_user_name %></td>
+            <td><%= user.counter %></td>
+            <td><%= user.password %></td>
+            <td><%= user.active %></td>
+            <td><%= user.priority %></td>
+            <td><%= user.created_at %></td>
+          </tr>
+      <% end %>
+
+    </table>
+<% end %>
