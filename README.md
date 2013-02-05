@@ -16,7 +16,7 @@ Prepare your gems and environment by running
 ```bash
 bundle install
 rake db:migrate
-```.
+```
 
 Run
 ===
