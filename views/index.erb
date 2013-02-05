@@ -16,6 +16,23 @@
     }
     .error { border: red solid 1px }
   </style>
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript">
+    $(function(){
+        $('.deactivate-user').click(function(e){
+            e.preventDefault();
+            var user_id = $(this).data('user_id');
+            var url = 'users/' + user_id;
+            $.ajax({
+                url:  url,
+                type: 'DELETE',
+                success: function() {
+                    window.location = '/';
+                }
+            })
+        })
+    })
+  </script>
 </head>
 <body>
 

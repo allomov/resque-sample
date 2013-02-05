@@ -1,8 +1,19 @@
 <% if @users.nil? || @users.empty? %>
     There is no users yet
 <% else %>
-    <table>
+    <table width="800px">
       <%#= partial(:user, collection: users) %>
+      <tr>
+        <td>User id</td>
+        <td>Instagram user name</td>
+        <td>Counter</td>
+        <td>Password</td>
+        <td>Active</td>
+        <td>Priority</td>
+        <td>Created_at</td>
+        <td></td>
+      </tr>
+
       <% @users.each do |user| %>
           <tr>
             <td><%= user.user_id %></td>
@@ -12,6 +23,7 @@
             <td><%= user.active %></td>
             <td><%= user.priority %></td>
             <td><%= user.created_at %></td>
+            <td><a href="#" class="deactivate-user" data-user_id="<%= user.id %>">Deactivate user</a></td>
           </tr>
       <% end %>
 

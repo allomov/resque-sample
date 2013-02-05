@@ -36,6 +36,7 @@ post '/users' do
   end
 end
 
-delete '/users' do
-
+delete '/users/:id' do
+  @user = User.find(params[:id])
+  @user.update_attribute :active, false
 end
