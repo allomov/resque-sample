@@ -2,7 +2,6 @@ require 'bundler/setup'
 Bundler.require(:default)
 
 KEY = "IMyYiubXP5Jx5lTLdVLWQZjeLEuA3WPnE4xyvVGY+bnaRcVsRjtV3jEAzJ/jwAme"
-DEVICE_ID = "2A233096-5328-4AB1-97A7-13D5ABF9FBEA"
 USER_AGENT = "Instagram 3.2.0 Android (10/2.3.7; 240dpi; 480x800; HTC/htc_wwe; HTC Desire"
 BASE_URL = "https://instagram.com"
 

@@ -4,8 +4,21 @@ module UserWorker
   def perform(user_id)
     @user = User.find(user_id)
     if @user
-      @user.increment!(:counter) # do your something
-      Resque.enqueue(self, user_id) if @user.active
+      begin
+        @user.login()
+        @user.popular().each do |m|
+          m.like()
+          m.comment("Hi there")
+          m.user().follow()
+        end
+      rescue => e
+        @user.increment!(:errors_count)
+        error_message = "#{e.message}\n==>\n#{e.backtrace}"
+        @user.update_attribute(:last_error, error_message)
+      ensure
+        Resque.enqueue(self, user_id) if @user.active
+      end
+
     end
   end
 end
