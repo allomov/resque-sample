@@ -7,9 +7,9 @@ module UserWorker
       begin
         @user.login()
         @user.popular().each do |m|
-          m.like() if !m.image_info['has_liked']
+          m.like() unless m.image_info['has_liked']
           m.comment("Hi there")
-          m.user().follow()
+          m.follow_author
         end
       rescue => e
         @user.increment!(:errors_count)

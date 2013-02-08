@@ -1,13 +1,13 @@
 require 'sinatra'
 require 'sinatra/activerecord'
-require './lib/path_helper'
+
 require File.expand_path(File.join('..', 'path_helper'), __FILE__)
 
 KEY = "IMyYiubXP5Jx5lTLdVLWQZjeLEuA3WPnE4xyvVGY+bnaRcVsRjtV3jEAzJ/jwAme"
 USER_AGENT = "Instagram 3.2.0 Android (10/2.3.7; 240dpi; 480x800; HTC/htc_wwe; HTC Desire"
 
 def build_post_data(hash)
-  info        = hash.to_json
+  info        = hash.to_json unless hash.is_a? String
   checksum    = Digest::HMAC.hexdigest(info, KEY, Digest::SHA256)
   signed_body = "#{checksum}.#{info}"
   post_data   = { :signed_body => signed_body, :ig_sig_key_version => 2 }
@@ -24,7 +24,7 @@ class InstagramImage
   end
 
   def comment(text)
-    post_data = build_post_data({comment: text})
+    post_data = build_post_data({comment_text: text})
     @session.post(comment_path(@image_id), post_data)
   end
 
@@ -35,7 +35,7 @@ class InstagramImage
 
   def follow_author
     post_data = build_post_data({user_id: @user_id})
-    @session.post(follow_user(@user_id), post_data)
+    @session.post(follow_user_path(@user_id), post_data)
   end
 
 end
@@ -47,11 +47,11 @@ class User < ActiveRecord::Base
   attr_accessible :instagram_user_name, :password, :user_id, :period, :priority, :device_id
 
   def login
+    login_info = {:username => self.instagram_user_name,
+                  :password => self.password,
+                  :device_id => self.device_id}
 
-    login_info = { :username  => self.instagram_user_name,
-                   :password  => self.password,
-                   :device_id => self.device_id }.to_json
-    post_data =  build_post_data(login_info)
+    post_data = build_post_data(login_info)
 
     @session = Patron::Session.new
     @session.base_url = base_url
@@ -65,7 +65,7 @@ class User < ActiveRecord::Base
   end
 
   def popular
-    @popual_feed ||= if @session
+    @popular_feed ||= if @session
       json = JSON.parse(@session.get(popular_path).body)
       json['items'].map { |image_info| InstagramImage.new(@session, image_info) }
     else

@@ -19,5 +19,5 @@ def comment_path(image_id)
 end
 
 def follow_user_path(user_id)
-  "/api/v1/friendship/create/#{user_id}/"
+  "/api/v1/friendships/create/#{user_id}/"
 end
