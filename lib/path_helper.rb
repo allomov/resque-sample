@@ -1,6 +1,5 @@
-
 def base_url
-  'http://instagram.com'
+  'https://instagram.com'
 end
 
 def login_path
