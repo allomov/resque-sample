@@ -7,7 +7,7 @@ module UserWorker
       begin
         @user.login()
         @user.popular().each do |m|
-          m.like()
+          m.like() if !m.image_info['has_liked']
           m.comment("Hi there")
           m.user().follow()
         end
