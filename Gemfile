@@ -12,7 +12,7 @@ gem 'activerecord'
 gem 'sinatra-activerecord'
 gem 'sqlite3'
 
-
+gem 'patron'
 
 group :development, :test do
   gem 'pry'
